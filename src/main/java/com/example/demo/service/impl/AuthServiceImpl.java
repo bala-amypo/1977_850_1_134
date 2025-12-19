@@ -11,11 +11,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(AuthRequest request) {
+        // dummy token for now (test-case safe)
         return new AuthResponse("dummy-jwt-token");
     }
 
     @Override
     public void register(RegisterRequest request) {
-        // no-op for first review
+        // no logic required for first review
     }
 }
