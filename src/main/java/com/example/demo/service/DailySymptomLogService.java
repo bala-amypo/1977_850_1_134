@@ -12,5 +12,7 @@ public interface DailySymptomLogService {
 
     List<DailySymptomLog> getAll();
 
+    List<DailySymptomLog> getLogsByPatient(Long patientId);
+
     void delete(Long id);
 }

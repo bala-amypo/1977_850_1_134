@@ -12,5 +12,7 @@ public interface ClinicalAlertService {
 
     List<ClinicalAlertRecord> getAll();
 
+    List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
+
     void delete(Long id);
 }
