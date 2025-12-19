@@ -10,7 +10,7 @@ public interface RecoveryCurveService {
 
     RecoveryCurveProfile getById(Long id);
 
-    RecoveryCurveProfile getBySurgeryType(String surgeryType);
+    List<RecoveryCurveProfile> getBySurgeryType(String surgeryType);
 
     List<RecoveryCurveProfile> getAll();
 

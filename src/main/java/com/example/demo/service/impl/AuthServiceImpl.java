@@ -11,9 +11,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(AuthRequest request) {
-        AuthResponse response = new AuthResponse();
-        response.setToken("dummy-jwt-token");
-        return response;
+        return new AuthResponse("dummy-jwt-token");
     }
 
     @Override
