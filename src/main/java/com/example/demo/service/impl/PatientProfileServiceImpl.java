@@ -1,16 +1,3 @@
-
-
-⸻
-
-4️⃣ DeviationRuleServiceImpl.java
-
-
-
-
-⸻
-
-5️⃣ PatientProfileServiceImpl.java
-
 package com.example.demo.service.impl;
 
 import com.example.demo.model.PatientProfile;
@@ -46,19 +33,3 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 }
 
 
-⸻
-
-6️⃣ RecoveryCurveServiceImpl.java
-
-
-
-⸻
-
-✅ WHAT YOU SHOULD DO NOW
-	1.	Paste all 6 impl files
-	2.	Click Save
-	3.	Run Verify
-
-If any error appears, send only the error text, not screenshots — I’ll fix it line-by-line.
-
-You’re now exactly at first-review ready state 💯
