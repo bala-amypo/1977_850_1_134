@@ -4,11 +4,9 @@ public class AuthResponse {
 
     private String token;
 
-    // no-arg constructor (REQUIRED)
     public AuthResponse() {
     }
 
-    // parameterized constructor (THIS FIXES THE ERROR)
     public AuthResponse(String token) {
         this.token = token;
     }

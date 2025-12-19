@@ -10,34 +10,14 @@ import java.util.List;
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRecordRepository repository;
+    private final ClinicalAlertRecordRepository repo;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return repository.save(alert);
-    }
-
-    @Override
-    public ClinicalAlertRecord getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<ClinicalAlertRecord> getAll() {
-        return repository.findAll();
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repo) {
+        this.repo = repo;
     }
 
     @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
-        return repository.findByPatientId(patientId);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+        return repo.findByPatientId(patientId);
     }
 }
