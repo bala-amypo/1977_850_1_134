@@ -22,11 +22,6 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     }
 
     @Override
-    public RecoveryCurveProfile getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
     public List<RecoveryCurveProfile> getBySurgeryType(String surgeryType) {
         return repository.findBySurgeryType(surgeryType);
     }
@@ -34,16 +29,5 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     @Override
     public List<RecoveryCurveProfile> getAll() {
         return repository.findAll();
-    }
-
-    @Override
-    public RecoveryCurveProfile update(Long id, RecoveryCurveProfile profile) {
-        profile.setId(id);
-        return repository.save(profile);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
     }
 }

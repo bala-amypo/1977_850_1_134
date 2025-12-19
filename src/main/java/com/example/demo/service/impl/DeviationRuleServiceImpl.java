@@ -22,23 +22,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
     }
 
     @Override
-    public DeviationRule getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
     public List<DeviationRule> getAllRules() {
         return repository.findAll();
-    }
-
-    @Override
-    public DeviationRule update(Long id, DeviationRule rule) {
-        rule.setId(id);
-        return repository.save(rule);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
     }
 }

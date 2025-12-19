@@ -33,7 +33,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
     @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
-        return repository.findByPatientId(patientId);
+        return repository.findByPatientProfileId(patientId);
     }
 
     @Override

@@ -22,22 +22,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     }
 
     @Override
-    public DailySymptomLog getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<DailySymptomLog> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public List<DailySymptomLog> getLogsByPatient(Long patientId) {
-        return repository.findByPatientId(patientId);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+        return repository.findByPatientProfileId(patientId);
     }
 }
