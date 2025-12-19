@@ -10,40 +10,19 @@ import java.util.List;
 @Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
-    private final RecoveryCurveProfileRepository repository;
+    private final RecoveryCurveProfileRepository repo;
 
-    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
-        this.repository = repository;
+    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repo) {
+        this.repo = repo;
     }
 
     @Override
     public RecoveryCurveProfile createCurve(RecoveryCurveProfile profile) {
-        return repository.save(profile);
-    }
-
-    @Override
-    public RecoveryCurveProfile getById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repo.save(profile);
     }
 
     @Override
     public List<RecoveryCurveProfile> getBySurgeryType(String surgeryType) {
-        return repository.findBySurgeryType(surgeryType);
-    }
-
-    @Override
-    public List<RecoveryCurveProfile> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public RecoveryCurveProfile update(Long id, RecoveryCurveProfile profile) {
-        profile.setId(id);
-        return repository.save(profile);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+        return repo.findBySurgeryType(surgeryType);
     }
 }
