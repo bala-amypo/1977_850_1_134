@@ -1,0 +1,15 @@
+package com.example.demo.dto;
+
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class RegisterRequest {
+
+    private String email;
+    private String password;
+    private String fullName;
+    private String role;
+}
