@@ -11,4 +11,3 @@ public interface RecoveryCurveService {
 
     List<RecoveryCurveProfile> getAll();
 }
-
