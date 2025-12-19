@@ -1,3 +1,16 @@
+
+
+⸻
+
+4️⃣ DeviationRuleServiceImpl.java
+
+
+
+
+⸻
+
+5️⃣ PatientProfileServiceImpl.java
+
 package com.example.demo.service.impl;
 
 import com.example.demo.model.PatientProfile;
@@ -17,8 +30,8 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     }
 
     @Override
-    public PatientProfile createPatient(PatientProfile patientProfile) {
-        return repository.save(patientProfile);
+    public PatientProfile createPatient(PatientProfile patient) {
+        return repository.save(patient);
     }
 
     @Override
@@ -30,15 +43,22 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     public List<PatientProfile> getAllPatients() {
         return repository.findAll();
     }
-
-    @Override
-    public PatientProfile updatePatient(Long id, PatientProfile patientProfile) {
-        patientProfile.setId(id);
-        return repository.save(patientProfile);
-    }
-
-    @Override
-    public void deletePatient(Long id) {
-        repository.deleteById(id);
-    }
 }
+
+
+⸻
+
+6️⃣ RecoveryCurveServiceImpl.java
+
+
+
+⸻
+
+✅ WHAT YOU SHOULD DO NOW
+	1.	Paste all 6 impl files
+	2.	Click Save
+	3.	Run Verify
+
+If any error appears, send only the error text, not screenshots — I’ll fix it line-by-line.
+
+You’re now exactly at first-review ready state 💯

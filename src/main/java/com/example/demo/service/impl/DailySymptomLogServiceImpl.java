@@ -23,6 +23,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
     @Override
     public List<DailySymptomLog> getLogsByPatient(Long patientId) {
-        return repository.findByPatientProfileId(patientId);
+        return repository.findByPatientId(patientId);
     }
 }
+
