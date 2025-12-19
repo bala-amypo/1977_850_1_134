@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "app_users")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AppUser {
 
     @Id
@@ -20,6 +20,8 @@ public class AppUser {
 
     @Column(nullable = false)
     private String password;
+
+    private String fullName;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
