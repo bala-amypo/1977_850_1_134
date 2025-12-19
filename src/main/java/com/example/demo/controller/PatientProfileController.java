@@ -1,11 +1,8 @@
 package com.example.demo.controller;
-
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @RestController
 @RequestMapping("/patients")
 public class PatientProfileController {
