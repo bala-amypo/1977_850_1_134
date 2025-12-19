@@ -36,7 +36,6 @@ public class DeviationRuleController {
         return deviationRuleService.getActiveRules();
     }
 
-    // ✅ THIS ENDPOINT CAUSED THE ERROR
     @GetMapping
     public List<DeviationRule> getAllRules() {
         return deviationRuleService.getAllRules();
