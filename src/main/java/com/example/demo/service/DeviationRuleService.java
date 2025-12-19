@@ -15,5 +15,8 @@ public interface DeviationRuleService {
 
     List<DeviationRule> getActiveRules();
 
+    // ✅ THIS WAS MISSING
+    List<DeviationRule> getAllRules();
+
     DeviationRule updateRule(Long id, DeviationRule rule);
 }
