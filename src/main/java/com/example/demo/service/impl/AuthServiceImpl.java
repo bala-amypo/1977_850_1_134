@@ -11,11 +11,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(AuthRequest request) {
-        return new AuthResponse("dummy-jwt-token");
+        AuthResponse response = new AuthResponse();
+        response.setToken("dummy-jwt-token");
+        return response;
     }
 
     @Override
     public void register(RegisterRequest request) {
-        // simple stub for first review
+        // no-op for first review
     }
 }

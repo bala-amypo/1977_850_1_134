@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface RecoveryCurveService {
 
-    RecoveryCurveProfile createRecoveryCurve(RecoveryCurveProfile profile);
+    RecoveryCurveProfile createCurve(RecoveryCurveProfile profile);
 
     RecoveryCurveProfile getById(Long id);
+
+    RecoveryCurveProfile getBySurgeryType(String surgeryType);
 
     List<RecoveryCurveProfile> getAll();
 

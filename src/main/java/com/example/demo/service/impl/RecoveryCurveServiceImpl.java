@@ -17,13 +17,18 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     }
 
     @Override
-    public RecoveryCurveProfile createRecoveryCurve(RecoveryCurveProfile profile) {
+    public RecoveryCurveProfile createCurve(RecoveryCurveProfile profile) {
         return repository.save(profile);
     }
 
     @Override
     public RecoveryCurveProfile getById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public RecoveryCurveProfile getBySurgeryType(String surgeryType) {
+        return repository.findBySurgeryType(surgeryType);
     }
 
     @Override

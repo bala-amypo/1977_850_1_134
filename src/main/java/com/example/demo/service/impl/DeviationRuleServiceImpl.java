@@ -27,7 +27,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
     }
 
     @Override
-    public List<DeviationRule> getAll() {
+    public List<DeviationRule> getAllRules() {
         return repository.findAll();
     }
 

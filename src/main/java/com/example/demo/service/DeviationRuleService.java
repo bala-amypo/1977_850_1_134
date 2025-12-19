@@ -10,11 +10,9 @@ public interface DeviationRuleService {
 
     DeviationRule getById(Long id);
 
-    List<DeviationRule> getAll();
+    List<DeviationRule> getAllRules();
 
     DeviationRule update(Long id, DeviationRule rule);
 
     void delete(Long id);
 }
-
-
