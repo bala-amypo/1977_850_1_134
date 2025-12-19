@@ -1,13 +1,9 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
 import com.example.demo.model.ClinicalAlertRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
-public interface ClinicalAlertRecordRepository
-        extends JpaRepository<ClinicalAlertRecord, Long> {
+public interface ClinicalAlertService {
 
-    List<ClinicalAlertRecord> findByPatientId(Long patientId);
+    List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
 }
-

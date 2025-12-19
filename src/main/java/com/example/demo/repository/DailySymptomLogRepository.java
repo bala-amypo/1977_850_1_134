@@ -1,12 +1,11 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
 import com.example.demo.model.DailySymptomLog;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
-public interface DailySymptomLogRepository
-        extends JpaRepository<DailySymptomLog, Long> {
+public interface DailySymptomLogService {
 
-    List<DailySymptomLog> findByPatientId(Long patientId);
+    DailySymptomLog createLog(DailySymptomLog log);
+
+    List<DailySymptomLog> getLogsByPatient(Long patientId);
 }
