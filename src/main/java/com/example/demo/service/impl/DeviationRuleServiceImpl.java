@@ -1,4 +1,3 @@
-
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -43,7 +42,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         return repository.findByActiveTrue();
     }
 
-    // ✅ IMPLEMENTATION ADDED
+
     @Override
     public List<DeviationRule> getAllRules() {
         return repository.findAll();
