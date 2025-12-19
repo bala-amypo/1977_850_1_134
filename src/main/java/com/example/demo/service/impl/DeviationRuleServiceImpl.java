@@ -12,10 +12,10 @@ import java.util.Optional;
 @Service
 public class DeviationRuleServiceImpl implements DeviationRuleService {
 
-    private final DeviationRuleRepository deviationRuleRepository;
+    private final DeviationRuleRepository repository;
 
-    public DeviationRuleServiceImpl(DeviationRuleRepository deviationRuleRepository) {
-        this.deviationRuleRepository = deviationRuleRepository;
+    public DeviationRuleServiceImpl(DeviationRuleRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -24,33 +24,34 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
             throw new IllegalArgumentException("Threshold must be");
         }
         rule.setActive(true);
-        return deviationRuleRepository.save(rule);
+        return repository.save(rule);
     }
 
     @Override
     public Optional<DeviationRule> getRuleByCode(String ruleCode) {
-        return deviationRuleRepository.findByRuleCode(ruleCode);
+        return repository.findByRuleCode(ruleCode);
     }
 
     @Override
     public List<DeviationRule> getRulesBySurgery(String surgeryType) {
-        return deviationRuleRepository.findBySurgeryType(surgeryType);
+        return repository.findBySurgeryType(surgeryType);
     }
 
     @Override
     public List<DeviationRule> getActiveRules() {
-        return deviationRuleRepository.findByActiveTrue();
+        return repository.findByActiveTrue();
     }
 
     @Override
     public DeviationRule updateRule(Long id, DeviationRule rule) {
-        DeviationRule existing = deviationRuleRepository.findById(id)
+        DeviationRule existing = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
 
         existing.setThreshold(rule.getThreshold());
         existing.setSeverity(rule.getSeverity());
         existing.setActive(rule.getActive());
 
-        return deviationRuleRepository.save(existing);
+        return repository.save(existing);
     }
 }
+

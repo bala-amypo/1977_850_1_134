@@ -12,44 +12,44 @@ import java.util.Optional;
 @Service
 public class PatientProfileServiceImpl implements PatientProfileService {
 
-    private final PatientProfileRepository patientProfileRepository;
+    private final PatientProfileRepository repository;
 
-    public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
-        this.patientProfileRepository = patientProfileRepository;
+    public PatientProfileServiceImpl(PatientProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public PatientProfile createPatient(PatientProfile patient) {
-        if (patientProfileRepository.findByEmail(patient.getEmail()).isPresent()) {
+        if (repository.findByEmail(patient.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
         }
         patient.setActive(true);
-        return patientProfileRepository.save(patient);
+        return repository.save(patient);
     }
 
     @Override
     public Optional<PatientProfile> getPatientById(Long id) {
-        return Optional.ofNullable(
-                patientProfileRepository.findById(id)
+        return Optional.of(
+                repository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Patient not found"))
         );
     }
 
     @Override
     public List<PatientProfile> getAllPatients() {
-        return patientProfileRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = patientProfileRepository.findById(id)
+        PatientProfile patient = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
         patient.setActive(active);
-        return patientProfileRepository.save(patient);
+        return repository.save(patient);
     }
 
     @Override
     public Optional<PatientProfile> findByPatientId(String patientId) {
-        return patientProfileRepository.findByPatientId(patientId);
+        return repository.findByPatientId(patientId);
     }
 }

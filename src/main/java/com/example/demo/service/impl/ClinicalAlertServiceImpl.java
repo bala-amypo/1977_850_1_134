@@ -12,38 +12,39 @@ import java.util.Optional;
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
+    private final ClinicalAlertRecordRepository repository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
-        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
         alert.setResolved(false);
-        return clinicalAlertRecordRepository.save(alert);
+        return repository.save(alert);
     }
 
     @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
-        return clinicalAlertRecordRepository.findByPatientId(patientId);
+        return repository.findByPatientId(patientId);
     }
 
     @Override
     public Optional<ClinicalAlertRecord> getAlertById(Long id) {
-        return clinicalAlertRecordRepository.findById(id);
+        return repository.findById(id);
     }
 
     @Override
     public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = clinicalAlertRecordRepository.findById(alertId)
+        ClinicalAlertRecord alert = repository.findById(alertId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
         alert.setResolved(true);
-        return clinicalAlertRecordRepository.save(alert);
+        return repository.save(alert);
     }
 
     @Override
     public List<ClinicalAlertRecord> getAllAlerts() {
-        return clinicalAlertRecordRepository.findAll();
+        return repository.findAll();
     }
 }
+

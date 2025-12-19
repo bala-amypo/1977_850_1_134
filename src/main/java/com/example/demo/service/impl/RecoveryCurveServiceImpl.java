@@ -11,31 +11,30 @@ import java.util.Optional;
 @Service
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
-    private final RecoveryCurveProfileRepository recoveryCurveProfileRepository;
+    private final RecoveryCurveProfileRepository repository;
 
-    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository recoveryCurveProfileRepository) {
-        this.recoveryCurveProfileRepository = recoveryCurveProfileRepository;
+    public RecoveryCurveServiceImpl(RecoveryCurveProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile entry) {
-        return recoveryCurveProfileRepository.save(entry);
+        return repository.save(entry);
     }
 
     @Override
     public List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType) {
-        return recoveryCurveProfileRepository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
+        return repository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
     }
 
     @Override
     public List<RecoveryCurveProfile> getAllCurves() {
-        return recoveryCurveProfileRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(String surgeryType, Integer dayNumber) {
-        return recoveryCurveProfileRepository.findAll()
-                .stream()
+        return repository.findAll().stream()
                 .filter(c -> c.getSurgeryType().equals(surgeryType)
                         && c.getDayNumber().equals(dayNumber))
                 .findFirst();
