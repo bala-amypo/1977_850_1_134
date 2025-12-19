@@ -10,14 +10,19 @@ import java.util.List;
 @Service
 public class DeviationRuleServiceImpl implements DeviationRuleService {
 
-    private final DeviationRuleRepository repo;
+    private final DeviationRuleRepository repository;
 
-    public DeviationRuleServiceImpl(DeviationRuleRepository repo) {
-        this.repo = repo;
+    public DeviationRuleServiceImpl(DeviationRuleRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public DeviationRule createRule(DeviationRule rule) {
+        return repository.save(rule);
     }
 
     @Override
     public List<DeviationRule> getAllRules() {
-        return repo.findAll();
+        return repository.findAll();
     }
 }
