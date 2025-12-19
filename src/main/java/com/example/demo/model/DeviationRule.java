@@ -1,0 +1,28 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "deviation_rules")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DeviationRule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String surgeryType;
+
+    private String parameter;
+
+    private Integer threshold;
+
+    private String severity;
+
+    private Boolean active;
+}
+
