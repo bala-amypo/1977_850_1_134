@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
@@ -12,11 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class PatientProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true, nullable = false)
     private String patientId;
 
