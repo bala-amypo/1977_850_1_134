@@ -42,7 +42,6 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         return repository.findByActiveTrue();
     }
 
-
     @Override
     public List<DeviationRule> getAllRules() {
         return repository.findAll();
@@ -53,6 +52,9 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         DeviationRule existing = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
 
+        existing.setRuleCode(rule.getRuleCode());
+        existing.setSurgeryType(rule.getSurgeryType());
+        existing.setParameter(rule.getParameter());
         existing.setThreshold(rule.getThreshold());
         existing.setSeverity(rule.getSeverity());
         existing.setActive(rule.getActive());
