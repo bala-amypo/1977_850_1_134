@@ -14,5 +14,5 @@ public interface DailySymptomLogService {
     Optional<DailySymptomLog> getLogById(Long id);
 
     DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log);
-}
+}   
       
