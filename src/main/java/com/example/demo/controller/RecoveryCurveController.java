@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/recovery-curves")
 @Tag(name = "Recovery Curves")
-public class RecoveryCurveController {
+public class RecoveryCurveController {   
 
     private final RecoveryCurveService recoveryCurveService;
 

@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/api/patients")
 @Tag(name = "Patients")
 public class PatientProfileController {
-
+ 
     private final PatientProfileService patientProfileService;
 
     public PatientProfileController(PatientProfileService patientProfileService) {
