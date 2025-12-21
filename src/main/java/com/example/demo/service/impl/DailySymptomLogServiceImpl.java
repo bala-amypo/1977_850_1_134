@@ -47,8 +47,8 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     public Optional<DailySymptomLog> getLogById(Long id) {
         return logRepository.findById(id);
     }
-
-    @Override
+        
+    @Override     
     public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
         DailySymptomLog existing = logRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
