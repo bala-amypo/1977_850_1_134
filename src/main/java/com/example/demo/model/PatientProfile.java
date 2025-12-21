@@ -30,7 +30,7 @@ public class PatientProfile {
 
     private String surgeryType;
 
-    private Boolean active;
+    private Boolean active; // active or discharged ?
 
     @CreationTimestamp
     private LocalDateTime createdAt;
