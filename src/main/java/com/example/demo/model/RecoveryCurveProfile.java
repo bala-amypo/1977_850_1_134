@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecoveryCurveProfile {
+public class RecoveryCurveProfile {    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

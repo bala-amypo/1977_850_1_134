@@ -15,7 +15,7 @@ public class DeviationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String ruleCode;
+    private String ruleCode;     
 
     private String surgeryType;
 

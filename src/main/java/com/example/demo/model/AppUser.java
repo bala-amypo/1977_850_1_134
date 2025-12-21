@@ -7,7 +7,7 @@ import lombok.*;
 @Table(name = "app_users")
 @Data
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor 
 @AllArgsConstructor
 public class AppUser {
 

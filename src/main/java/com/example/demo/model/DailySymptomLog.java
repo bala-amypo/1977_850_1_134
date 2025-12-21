@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "daily_symptom_logs",
        uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "logDate"}))
 @Data
-@Builder
+@Builder    
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailySymptomLog {

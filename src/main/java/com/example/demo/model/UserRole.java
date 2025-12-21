@@ -5,4 +5,4 @@ public enum UserRole {
     CLINICIAN,
     HEALTH_ASSISTANT,
     ANALYST
-}
+}  

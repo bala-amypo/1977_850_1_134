@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalAlertRecord {
+public class ClinicalAlertRecord {    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
