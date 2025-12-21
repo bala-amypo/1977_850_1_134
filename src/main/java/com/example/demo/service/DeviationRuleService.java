@@ -18,4 +18,4 @@ public interface DeviationRuleService {
     List<DeviationRule> getAllRules();
 
     DeviationRule updateRule(Long id, DeviationRule rule);
-}  
+}     
