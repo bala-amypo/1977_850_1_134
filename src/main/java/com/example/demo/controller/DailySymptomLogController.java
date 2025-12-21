@@ -14,7 +14,7 @@ public class DailySymptomLogController {
     public DailySymptomLogController(DailySymptomLogService dailySymptomLogService) {
         this.dailySymptomLogService = dailySymptomLogService;
     }
-
+     
     @PostMapping
     public DailySymptomLog recordLog(@RequestBody DailySymptomLog log) {
         return dailySymptomLogService.recordSymptomLog(log);
