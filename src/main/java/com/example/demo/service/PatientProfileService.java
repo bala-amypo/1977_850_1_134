@@ -16,4 +16,4 @@ public interface PatientProfileService {
     PatientProfile updatePatientStatus(Long id, boolean active);
 
     Optional<PatientProfile> findByPatientId(String patientId);
-}
+}  

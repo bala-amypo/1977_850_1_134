@@ -15,3 +15,4 @@ public interface DailySymptomLogService {
 
     DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log);
 }
+  

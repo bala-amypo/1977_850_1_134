@@ -15,3 +15,4 @@ public interface RecoveryCurveService {
 
     Optional<RecoveryCurveProfile> getCurveByDayAndSurgery(String surgeryType, Integer dayNumber);
 }
+   
