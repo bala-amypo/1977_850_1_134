@@ -4,9 +4,9 @@ import com.example.demo.service.DailySymptomLogService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-@RestController
-@RequestMapping("/api/symptom-logs")
-@Tag(name = "Daily Symptom Logs")
+@RestController 
+@RequestMapping("/api/symptom-logs") 
+@Tag(name = "Daily Symptom Logs") 
 public class DailySymptomLogController {
 
     private final DailySymptomLogService dailySymptomLogService;
