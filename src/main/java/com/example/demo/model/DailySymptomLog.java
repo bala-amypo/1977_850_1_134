@@ -1,12 +1,9 @@
 package com.example.demo.model;
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "daily_symptom_logs",
        uniqueConstraints = @UniqueConstraint(columnNames = {"patient_id", "logDate"}))

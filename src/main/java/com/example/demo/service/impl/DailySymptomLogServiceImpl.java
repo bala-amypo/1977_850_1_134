@@ -1,16 +1,13 @@
 package com.example.demo.service.impl;
-
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.DailySymptomLog;
 import com.example.demo.repository.DailySymptomLogRepository;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.DailySymptomLogService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 @Service   
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
@@ -23,7 +20,6 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         this.logRepository = logRepository;
         this.patientRepository = patientRepository;
     }
-
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
@@ -41,14 +37,12 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
         return logRepository.save(log);
     }
-
     @Override
     public List<DailySymptomLog> getLogsByPatient(Long patientId) {
         patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
         return logRepository.findByPatientId(patientId);
     }
-
     @Override
     public Optional<DailySymptomLog> getLogById(Long id) {
         return logRepository.findById(id);
