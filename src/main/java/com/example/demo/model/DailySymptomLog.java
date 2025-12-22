@@ -17,8 +17,9 @@ public class DailySymptomLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "patient_id")
-    private String patientId;
+  @ManyToOne
+  @JoinColumn(name = "patient_id", nullable = false)
+  private PatientProfile patient;
 
     private LocalDate logDate;
 

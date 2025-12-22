@@ -9,7 +9,8 @@ import java.util.Optional;
 
 public interface DailySymptomLogRepository extends JpaRepository<DailySymptomLog, Long> {
 
-    List<DailySymptomLog> findByPatientId(Long patientId);
+    List<DailySymptomLog> findByPatient(PatientProfile patient);
 
-    Optional<DailySymptomLog> findByPatientIdAndLogDate(Long patientId, LocalDate logDate);
+    Optional<DailySymptomLog> findByPatientAndLogDate(PatientProfile patient, LocalDate logDate);
+    
 }         
