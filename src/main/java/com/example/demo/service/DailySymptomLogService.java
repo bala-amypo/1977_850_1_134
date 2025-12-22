@@ -9,7 +9,7 @@ public interface DailySymptomLogService {
 
     DailySymptomLog recordSymptomLog(DailySymptomLog log);
 
-    List<DailySymptomLog> getLogsByPatient(Long patientId);
+    List<DailySymptomLog> getLogsByPatient(String patientId);
 
     Optional<DailySymptomLog> getLogById(Long id);
 
