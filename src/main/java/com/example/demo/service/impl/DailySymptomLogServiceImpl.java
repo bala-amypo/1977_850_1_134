@@ -38,7 +38,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         return logRepository.save(log);
     }
     @Override
-    public List<DailySymptomLog> getLogsByPatient(String patientId) {
+    public List<DailySymptomLog> getLogsByPatient(Long patientId) {
         patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
         return logRepository.findByPatientId(patientId);
