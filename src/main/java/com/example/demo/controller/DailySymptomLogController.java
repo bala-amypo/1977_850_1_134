@@ -28,7 +28,7 @@ public class DailySymptomLogController {
     }
 
     @GetMapping("/patient/{patientId}")
-    public List<DailySymptomLog> getLogsByPatient(@PathVariable Long patientId) {
+    public List<DailySymptomLog> getLogsByPatient(@PathVariable String patientId) {
         return dailySymptomLogService.getLogsByPatient(patientId);
     }
 
