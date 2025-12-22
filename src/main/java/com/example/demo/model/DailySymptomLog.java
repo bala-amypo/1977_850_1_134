@@ -18,7 +18,7 @@ public class DailySymptomLog {
     private Long id;
 
     @Column(name = "patient_id")
-    private Long patientId;
+    private String patientId;
 
     private LocalDate logDate;
 
