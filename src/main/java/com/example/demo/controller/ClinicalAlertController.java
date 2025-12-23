@@ -1,13 +1,10 @@
 package com.example.demo.controller;
-
 import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.service.ClinicalAlertService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-     
-@RestController
+@RestController     
 @RequestMapping("/api/alerts")
 @Tag(name = "Clinical Alerts")
 public class ClinicalAlertController {

@@ -5,7 +5,7 @@ import com.example.demo.service.RecoveryCurveService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.List;        
 
 @RestController
 @RequestMapping("/api/recovery-curves")

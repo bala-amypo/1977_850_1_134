@@ -1,11 +1,9 @@
 package com.example.demo.controller;
-
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import java.util.List;     
 
 @RestController
 @RequestMapping("/api/patients")
