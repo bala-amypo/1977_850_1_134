@@ -25,7 +25,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+    public List<ClinicalAlertRecord> getAlertsByPatient(String patientId) {
         return repository.findByPatientId(patientId);
     }
 
