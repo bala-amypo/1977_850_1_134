@@ -7,7 +7,7 @@ import java.util.List;
 @RestController     
 @RequestMapping("/api/alerts") 
 @Tag(name = "Clinical Alerts")   
-public class ClinicalAlertController {
+public class ClinicalAlertController {   
 
     private final ClinicalAlertService clinicalAlertService;
 

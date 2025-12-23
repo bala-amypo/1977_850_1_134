@@ -8,7 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/deviation-rules")
 @Tag(name = "Deviation Rules")
-public class DeviationRuleController {
+public class DeviationRuleController {         
 
     private final DeviationRuleService deviationRuleService;
 

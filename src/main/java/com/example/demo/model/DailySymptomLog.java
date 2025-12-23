@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder    
 @NoArgsConstructor        
 @AllArgsConstructor   
-public class DailySymptomLog {
+public class DailySymptomLog {    
 
     @Id    
     @GeneratedValue(strategy = GenerationType.IDENTITY)

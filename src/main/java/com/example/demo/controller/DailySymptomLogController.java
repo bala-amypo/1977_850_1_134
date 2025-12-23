@@ -7,7 +7,7 @@ import java.util.List;
 @RestController     
 @RequestMapping("/api/symptom-logs") 
 @Tag(name = "Daily Symptom Logs") 
-public class DailySymptomLogController {
+public class DailySymptomLogController {         
 
     private final DailySymptomLogService dailySymptomLogService;
 
