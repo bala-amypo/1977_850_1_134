@@ -27,7 +27,7 @@ public class DailySymptomLog {
 
     private Integer mobilityLevel;
 
-    private Integer fatigueLevel;
+    private Integer fatigueLevel;  
 
     @Lob // reduces character limit
     private String additionalNotes;
