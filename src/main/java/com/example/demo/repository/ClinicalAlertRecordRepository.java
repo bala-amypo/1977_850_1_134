@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ClinicalAlertRecordRepository extends JpaRepository<ClinicalAlertRecord, Long> {
 
-    List<ClinicalAlertRecord> findByPatientId(Long patientId);
+    List<ClinicalAlertRecord> findByPatientId(String patientId);
 }        
