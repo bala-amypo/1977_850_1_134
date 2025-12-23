@@ -30,7 +30,7 @@ public class DailySymptomLog {
     private Integer fatigueLevel;  
 
     @Lob // reduces character limit
-    private String additionalNotes;
+    private String additionalNotes; 
 
     @CreationTimestamp
     private LocalDateTime submittedAt;
