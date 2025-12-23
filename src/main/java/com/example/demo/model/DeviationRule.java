@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviationRule {
+public class DeviationRule {      
 
     @Id    
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class RecoveryCurveProfile {    
 
-    @Id
+    @Id    
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

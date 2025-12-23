@@ -27,3 +27,4 @@ public class AppUser {
     private UserRole role;
 }
 
+      
