@@ -39,50 +39,53 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        // 1. Extract patientId
         String patientId = log.getPatient().getPatientId();
 
-        // 2. Validate patient exists
         PatientProfile patient = patientRepository
                 .findByPatientId(patientId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Patient not found with ID: " + patientId));
 
-        // 3. Validate date
         if (log.getLogDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Log date cannot be in the future");
         }
 
-        // 4. Prevent duplicate log for same day
         if (logRepository.findByPatientAndLogDate(patient, log.getLogDate()).isPresent()) {
             throw new IllegalArgumentException("Duplicate daily symptom log");
         }
 
-        // 5. Save symptom log
         log.setPatient(patient);
         DailySymptomLog savedLog = logRepository.save(log);
 
-        // 6. Fetch active deviation rules for surgery type
-        List<DeviationRule> rules =
-                deviationRuleRepository.findActiveRulesBySurgeryType(
-                        patient.getSurgeryType()
-                );
 
-        // 7. Check rule violations and auto-generate alerts
+        List<DeviationRule> rules = deviationRuleRepository.findAll();
+
         for (DeviationRule rule : rules) {
 
+            if (!rule.getActive()) continue;
+
             boolean violated = false;
+            String message = "";
 
-            if ("PAIN".equalsIgnoreCase(rule.getMetric())) {
-                violated = savedLog.getPainLevel() > rule.getThreshold();
+            if (rule.getPainThreshold() != null &&
+                    savedLog.getPainLevel() > rule.getPainThreshold()) {
+
+                violated = true;
+                message = "Pain level exceeded threshold";
             }
 
-            if ("MOBILITY".equalsIgnoreCase(rule.getMetric())) {
-                violated = savedLog.getMobilityLevel() < rule.getThreshold();
+            if (rule.getMobilityThreshold() != null &&
+                    savedLog.getMobilityLevel() < rule.getMobilityThreshold()) {
+
+                violated = true;
+                message = "Mobility level dropped below threshold";
             }
 
-            if ("FATIGUE".equalsIgnoreCase(rule.getMetric())) {
-                violated = savedLog.getFatigueLevel() > rule.getThreshold();
+            if (rule.getFatigueThreshold() != null &&
+                    savedLog.getFatigueLevel() > rule.getFatigueThreshold()) {
+
+                violated = true;
+                message = "Fatigue level exceeded threshold";
             }
 
             if (violated) {
@@ -91,11 +94,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                         .logId(savedLog.getId())
                         .alertType("Deviation Rule Violation")
                         .severity(rule.getSeverity())
-                        .message(
-                                rule.getMetric() +
-                                " deviation detected on " +
-                                savedLog.getLogDate()
-                        )
+                        .message(message)
                         .resolved(false)
                         .build();
 
@@ -103,7 +102,6 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
             }
         }
 
-        // 8. Return saved log
         return savedLog;
     }
 
@@ -111,8 +109,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     public List<DailySymptomLog> getLogsByPatient(String patientId) {
         PatientProfile patient = patientRepository
                 .findByPatientId(patientId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Patient not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
         return logRepository.findByPatient(patient);
     }
@@ -125,8 +122,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
         DailySymptomLog existing = logRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Log not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
 
         log.setId(existing.getId());
         log.setPatient(existing.getPatient());
