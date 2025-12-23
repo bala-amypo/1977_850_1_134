@@ -9,7 +9,7 @@ public interface ClinicalAlertService {
 
     ClinicalAlertRecord createAlert(ClinicalAlertRecord alert);
 
-    List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
+    List<ClinicalAlertRecord> getAlertsByPatient(String patientId);
 
     Optional<ClinicalAlertRecord> getAlertById(Long id);
 
@@ -17,3 +17,4 @@ public interface ClinicalAlertService {
 
     List<ClinicalAlertRecord> getAllAlerts();
 }
+     
