@@ -86,7 +86,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                     violated = savedLog.getFatigueLevel() != null &&
                                savedLog.getFatigueLevel() > rule.getThreshold();
                     break;
-            }
+            }   
 
             // Auto-generate clinical alert
             if (violated) {
