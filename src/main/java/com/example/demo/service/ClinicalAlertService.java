@@ -5,7 +5,7 @@ import com.example.demo.model.ClinicalAlertRecord;
 import java.util.List;
 import java.util.Optional;
 
-public interface ClinicalAlertService {
+public interface ClinicalAlertService {   
 
     ClinicalAlertRecord createAlert(ClinicalAlertRecord alert);
 

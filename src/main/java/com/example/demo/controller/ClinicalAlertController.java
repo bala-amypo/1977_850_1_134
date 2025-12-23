@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController     
 @RequestMapping("/api/alerts") 
-@Tag(name = "Clinical Alerts")
+@Tag(name = "Clinical Alerts")   
 public class ClinicalAlertController {
 
     private final ClinicalAlertService clinicalAlertService;
@@ -23,7 +23,7 @@ public class ClinicalAlertController {
         return clinicalAlertService.resolveAlert(id);
     }
     @GetMapping("/patient/{patientId}")
-    public List<ClinicalAlertRecord> getAlertsByPatient(@PathVariable Long patientId) {
+    public List<ClinicalAlertRecord> getAlertsByPatient(@PathVariable String patientId) {
         return clinicalAlertService.getAlertsByPatient(patientId);
     }
     @GetMapping("/{id}")
