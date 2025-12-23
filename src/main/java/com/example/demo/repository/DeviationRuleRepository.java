@@ -14,3 +14,4 @@ public interface DeviationRuleRepository extends JpaRepository<DeviationRule, Lo
 
     List<DeviationRule> findBySurgeryType(String surgeryType);
 }
+         
