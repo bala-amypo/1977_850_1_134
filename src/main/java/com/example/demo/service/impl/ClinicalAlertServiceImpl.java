@@ -47,4 +47,4 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
         return repository.findAll();
     }
 }
-
+    
