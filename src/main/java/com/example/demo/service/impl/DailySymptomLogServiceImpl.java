@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
@@ -28,8 +27,8 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
             DeviationRuleRepository deviationRuleRepository,
-            ClinicalAlertService clinicalAlertService) {
-
+            ClinicalAlertService clinicalAlertService
+    ) {
         this.logRepository = logRepository;
         this.patientRepository = patientRepository;
         this.deviationRuleRepository = deviationRuleRepository;
@@ -46,55 +45,57 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Patient not found with ID: " + patientId));
 
+        // Future date validation
         if (log.getLogDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Log date cannot be in the future");
         }
 
+        // Duplicate log validation
         if (logRepository.findByPatientAndLogDate(patient, log.getLogDate()).isPresent()) {
             throw new IllegalArgumentException("Duplicate daily symptom log");
         }
 
+        // Save daily symptom log
         log.setPatient(patient);
         DailySymptomLog savedLog = logRepository.save(log);
 
+        // Fetch active deviation rules for surgery type
+        List<DeviationRule> rules =
+                deviationRuleRepository.findBySurgeryTypeAndActiveTrue(
+                        patient.getSurgeryType()
+                );
 
-        List<DeviationRule> rules = deviationRuleRepository.findAll();
-
+        // Check rule violations
         for (DeviationRule rule : rules) {
 
-            if (!rule.getActive()) continue;
-
             boolean violated = false;
-            String message = "";
 
-            if (rule.getPainThreshold() != null &&
-                    savedLog.getPainLevel() > rule.getPainThreshold()) {
+            switch (rule.getParameter()) {
 
-                violated = true;
-                message = "Pain level exceeded threshold";
+                case "painLevel":
+                    violated = savedLog.getPainLevel() != null &&
+                               savedLog.getPainLevel() > rule.getThreshold();
+                    break;
+
+                case "mobilityLevel":
+                    violated = savedLog.getMobilityLevel() != null &&
+                               savedLog.getMobilityLevel() < rule.getThreshold();
+                    break;
+
+                case "fatigueLevel":
+                    violated = savedLog.getFatigueLevel() != null &&
+                               savedLog.getFatigueLevel() > rule.getThreshold();
+                    break;
             }
 
-            if (rule.getMobilityThreshold() != null &&
-                    savedLog.getMobilityLevel() < rule.getMobilityThreshold()) {
-
-                violated = true;
-                message = "Mobility level dropped below threshold";
-            }
-
-            if (rule.getFatigueThreshold() != null &&
-                    savedLog.getFatigueLevel() > rule.getFatigueThreshold()) {
-
-                violated = true;
-                message = "Fatigue level exceeded threshold";
-            }
-
+            // Auto-generate clinical alert
             if (violated) {
                 ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
-                        .patientId(patient.getPatientId())
+                        .patientId(patient.getId())
                         .logId(savedLog.getId())
-                        .alertType("Deviation Rule Violation")
+                        .alertType(rule.getRuleCode())
                         .severity(rule.getSeverity())
-                        .message(message)
+                        .message("Deviation detected for " + rule.getParameter())
                         .resolved(false)
                         .build();
 
@@ -103,30 +104,5 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         }
 
         return savedLog;
-    }
-
-    @Override
-    public List<DailySymptomLog> getLogsByPatient(String patientId) {
-        PatientProfile patient = patientRepository
-                .findByPatientId(patientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-
-        return logRepository.findByPatient(patient);
-    }
-
-    @Override
-    public Optional<DailySymptomLog> getLogById(Long id) {
-        return logRepository.findById(id);
-    }
-
-    @Override
-    public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
-        DailySymptomLog existing = logRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
-
-        log.setId(existing.getId());
-        log.setPatient(existing.getPatient());
-
-        return logRepository.save(log);
     }
 }
