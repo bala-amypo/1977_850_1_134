@@ -1,14 +1,14 @@
 package com.example.demo.controller;
+
 import com.example.demo.model.DeviationRule;
 import com.example.demo.service.DeviationRuleService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;   
-    
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/deviation-rules")
-@Tag(name = "Deviation Rules")
-public class DeviationRuleController {         
+public class DeviationRuleController {
 
     private final DeviationRuleService deviationRuleService;
 
@@ -17,24 +17,25 @@ public class DeviationRuleController {
     }
 
     @PostMapping
-    public DeviationRule createRule(@RequestBody DeviationRule rule) {
+    public DeviationRule create(@RequestBody DeviationRule rule) {
         return deviationRuleService.createRule(rule);
     }
 
     @PutMapping("/{id}")
-    public DeviationRule updateRule(
+    public DeviationRule update(
             @PathVariable Long id,
-            @RequestBody DeviationRule rule) {
+            @RequestBody DeviationRule rule
+    ) {
         return deviationRuleService.updateRule(id, rule);
     }
 
     @GetMapping("/active")
-    public List<DeviationRule> getActiveRules() {
+    public List<DeviationRule> getActive() {
         return deviationRuleService.getActiveRules();
     }
 
     @GetMapping
-    public List<DeviationRule> getAllRules() {
+    public List<DeviationRule> getAll() {
         return deviationRuleService.getAllRules();
     }
-}             
+}
