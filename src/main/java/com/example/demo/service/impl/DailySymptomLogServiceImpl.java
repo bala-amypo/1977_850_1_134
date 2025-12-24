@@ -1,14 +1,10 @@
-// DAILYSYMPTOMLOG IMPL
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.*;
 import com.example.demo.repository.DailySymptomLogRepository;
 import com.example.demo.repository.PatientProfileRepository;
-import com.example.demo.service.ClinicalAlertService;
-import com.example.demo.service.DailySymptomLogService;
-import com.example.demo.service.DeviationRuleService;
-import com.example.demo.service.RecoveryCurveService;
+import com.example.demo.service.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,26 +36,21 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        // 1. Validate patient
         PatientProfile patient = patientProfileRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
-        // 2. Future date validation
         if (log.getLogDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("future date");
+            throw new IllegalArgumentException("Future date not allowed");
         }
 
-        // 3. Duplicate log check
-        if (dailySymptomLogRepository
+        dailySymptomLogRepository
                 .findByPatientIdAndLogDate(log.getPatientId(), log.getLogDate())
-                .isPresent()) {
-            throw new IllegalArgumentException("Duplicate daily log");
-        }
+                .ifPresent(l -> {
+                    throw new IllegalArgumentException("Duplicate daily log");
+                });
 
-        // 4. Save log
         DailySymptomLog savedLog = dailySymptomLogRepository.save(log);
 
-        // 5. Get recovery curve
         List<RecoveryCurveProfile> curves =
                 recoveryCurveService.getCurveForSurgery(patient.getSurgeryType());
 
@@ -69,31 +60,37 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
         RecoveryCurveProfile curve = curves.get(curves.size() - 1);
 
-        // 6. Get active deviation rules
         List<DeviationRule> rules = deviationRuleService.getActiveRules();
 
-        // 7. Compare deviation (simplified & entity-safe)
         for (DeviationRule rule : rules) {
 
-            if (!rule.getActive()) {
-                continue;
+            int expected;
+            int actual;
+
+            switch (rule.getSymptomParameter()) {
+                case "PAIN" -> {
+                    expected = curve.getExpectedPainLevel();
+                    actual = savedLog.getPainLevel();
+                }
+                case "MOBILITY" -> {
+                    expected = curve.getExpectedMobilityLevel();
+                    actual = savedLog.getMobilityLevel();
+                }
+                case "FATIGUE" -> {
+                    expected = curve.getExpectedFatigueLevel();
+                    actual = savedLog.getFatigueLevel();
+                }
+                default -> {
+                    continue;
+                }
             }
-
-            int actual =
-                    log.getPainLevel()
-                    + log.getMobilityLevel()
-                    + log.getFatigueLevel();
-
-            int expected =
-                    curve.getExpectedPainLevel()
-                    + curve.getExpectedMobilityLevel()
-                    + curve.getExpectedFatigueLevel();
 
             if (Math.abs(actual - expected) > rule.getThresholdDeviation()) {
 
                 ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                         .patientId(patient.getId())
                         .logId(savedLog.getId())
+                        .alertType(rule.getSymptomParameter() + "_DEVIATION")
                         .message("Deviation detected")
                         .resolved(false)
                         .build();
