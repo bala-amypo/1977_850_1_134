@@ -1,55 +1,51 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.PatientProfile;
-import com.example.demo.repository.PatientProfileRepository;
-import com.example.demo.service.PatientProfileService;
+import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.repository.ClinicalAlertRecordRepository;
+import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PatientProfileServiceImpl implements PatientProfileService {
+public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final PatientProfileRepository patientProfileRepository;
+    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
 
-    public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
-        this.patientProfileRepository = patientProfileRepository;
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
+        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
     }
 
     @Override
-    public PatientProfile createPatient(PatientProfile patient) {
-
-        if (patientProfileRepository.findByEmail(patient.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-
-        return patientProfileRepository.save(patient);
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
+        return clinicalAlertRecordRepository.save(alert);
     }
 
     @Override
-    public PatientProfile getPatientById(Long id) {
-        return patientProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+    public ClinicalAlertRecord resolveAlert(Long alertId) {
+
+        ClinicalAlertRecord alert = clinicalAlertRecordRepository.findById(alertId)
+                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
+
+        alert.setResolved(true);
+        return clinicalAlertRecordRepository.save(alert);
     }
 
     @Override
-    public List<PatientProfile> getAllPatients() {
-        return patientProfileRepository.findAll();
+    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+        return clinicalAlertRecordRepository.findByPatientId(patientId);
     }
 
     @Override
-    public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = getPatientById(id);
-        patient.setActive(active);
-        return patientProfileRepository.save(patient);
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return clinicalAlertRecordRepository.findAll();
     }
 
     @Override
-    public Optional<PatientProfile> findByPatientId(String patientId) {
-        return patientProfileRepository.findByPatientId(patientId);
+    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
+        return clinicalAlertRecordRepository.findById(id);
     }
 }
-
 
