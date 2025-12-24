@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    @Bean
+    @Bean 
     public JwtTokenProvider jwtTokenProvider() {
         return new JwtTokenProvider("my-secret-key", 3600000);
     }
