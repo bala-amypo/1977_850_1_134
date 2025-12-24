@@ -5,25 +5,29 @@ import lombok.*;
 
 @Entity
 @Table(name = "deviation_rules")
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviationRule {      
+@Builder
+public class DeviationRule {
 
-    @Id    
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String ruleCode;               
 
+    @Column(nullable = false)
     private String surgeryType;
 
+    @Column(nullable = false)
     private String parameter;
 
+    @Column(nullable = false)
     private Integer threshold;
 
+    @Column(nullable = false)
     private String severity;
 
-    private Boolean active;
+    @Column(nullable = false)
+    private Boolean active = true;
 }

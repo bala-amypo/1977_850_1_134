@@ -1,3 +1,4 @@
+
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -8,29 +9,45 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "clinical_alert_records")
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalAlertRecord {    
+@Builder
+public class ClinicalAlertRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String patientId;
+    @Column(nullable = false)
+    private Long patientId;
 
+    @Column(nullable = false)
     private Long logId;
 
+    @Column(nullable = false)
     private String alertType;
 
+    @Column(nullable = false)
     private String severity;
 
     @Lob
+    @Column(nullable = false)
     private String message;
 
-    private Boolean resolved;
+    @Column(nullable = false)
+    private Boolean resolved = false;
 
     @CreationTimestamp
     private LocalDate alertDate;
 }
+
+
+
+
+
+
+
+
 
