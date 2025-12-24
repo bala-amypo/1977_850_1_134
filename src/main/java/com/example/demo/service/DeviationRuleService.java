@@ -14,3 +14,4 @@ public interface DeviationRuleService {
 
     List<DeviationRule> getActiveRules();
 }
+  
