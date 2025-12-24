@@ -2,18 +2,19 @@ package com.example.demo.security;
 
 import com.example.demo.model.AppUser;
 import com.example.demo.model.UserRole;
-import io.jsonwebtoken.*;
-import org.springframework.stereotype.Component;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Date;
 
-@Component
+
 public class JwtTokenProvider {
 
     private final String secret;
     private final long validityInMs;
 
-    // 🔴 REQUIRED constructor (tests call this directly)
+  
     public JwtTokenProvider(String secret, long validityInMs) {
         this.secret = secret;
         this.validityInMs = validityInMs;
@@ -38,7 +39,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -64,4 +67,3 @@ public class JwtTokenProvider {
                 .getBody();
     }
 }
-
