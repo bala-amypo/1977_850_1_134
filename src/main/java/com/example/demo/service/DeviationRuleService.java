@@ -1,3 +1,4 @@
+
 package com.example.demo.service;
 
 import com.example.demo.model.DeviationRule;
@@ -9,13 +10,12 @@ public interface DeviationRuleService {
 
     DeviationRule createRule(DeviationRule rule);
 
-    Optional<DeviationRule> getRuleByCode(String ruleCode);
-
-    List<DeviationRule> getRulesBySurgery(String surgeryType);
-
-    List<DeviationRule> getActiveRules();
+    DeviationRule updateRule(Long id, DeviationRule rule);
 
     List<DeviationRule> getAllRules();
 
-    DeviationRule updateRule(Long id, DeviationRule rule);
-}               
+    List<DeviationRule> getActiveRules();
+
+    Optional<DeviationRule> getRuleByCode(String ruleCode);
+}
+

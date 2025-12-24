@@ -5,16 +5,15 @@ import com.example.demo.model.ClinicalAlertRecord;
 import java.util.List;
 import java.util.Optional;
 
-public interface ClinicalAlertService {   
+public interface ClinicalAlertService {
 
     ClinicalAlertRecord createAlert(ClinicalAlertRecord alert);
 
-    List<ClinicalAlertRecord> getAlertsByPatient(String patientId);
-
-    Optional<ClinicalAlertRecord> getAlertById(Long id);
-
     ClinicalAlertRecord resolveAlert(Long alertId);
 
+    List<ClinicalAlertRecord> getAlertsByPatient(Long patientId);
+
     List<ClinicalAlertRecord> getAllAlerts();
+
+    Optional<ClinicalAlertRecord> getAlertById(Long id);
 }
-     
