@@ -9,3 +9,4 @@ public interface DeviationRuleRepository extends JpaRepository<DeviationRule, Lo
 
     List<DeviationRule> findByActiveTrue();
 }
+ 
