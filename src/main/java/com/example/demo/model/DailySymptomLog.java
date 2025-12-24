@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor   
 public class DailySymptomLog {    
 
-    @Id    
+    @Id               
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

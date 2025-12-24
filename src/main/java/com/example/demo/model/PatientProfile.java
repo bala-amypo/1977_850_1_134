@@ -22,7 +22,7 @@ public class PatientProfile {
     private String patientId;
 
     private String fullName;
-
+                 
     private Integer age;
 
     @Column(unique = true)
