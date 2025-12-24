@@ -36,3 +36,4 @@ public class ClinicalAlertController {
         return clinicalAlertService.getAllAlerts();
     }
 }
+   

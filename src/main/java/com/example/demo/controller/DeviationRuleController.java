@@ -37,4 +37,4 @@ public class DeviationRuleController {
     public List<DeviationRule> getAllRules() {
         return deviationRuleService.getAllRules();
     }
-}
+}             

@@ -37,4 +37,4 @@ public class DailySymptomLogController {
         return dailySymptomLogService.getLogById(id)
                 .orElseThrow(() -> new RuntimeException("not found"));
     }
-} 
+}       
