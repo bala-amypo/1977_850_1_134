@@ -16,34 +16,36 @@ public class PatientProfileController {
         this.patientProfileService = patientProfileService;
     }
 
+    // CREATE patient
     @PostMapping
-    public PatientProfile createPatient(@RequestBody PatientProfile patient) {
-        return patientProfileService.createPatient(patient);
+    public PatientProfile createPatient(@RequestBody PatientProfile patientProfile) {
+        return patientProfileService.createPatient(patientProfile);
     }
 
+    // GET patient by ID
     @GetMapping("/{id}")
-    public PatientProfile getPatient(@PathVariable Long id) {
+    public PatientProfile getPatientById(@PathVariable Long id) {
         return patientProfileService.getPatientById(id);
     }
 
+    // GET all patients
     @GetMapping
     public List<PatientProfile> getAllPatients() {
         return patientProfileService.getAllPatients();
     }
 
-    @PutMapping("/{id}/status")
-    public PatientProfile updateStatus(
+    // UPDATE patient
+    @PutMapping("/{id}")
+    public PatientProfile updatePatient(
             @PathVariable Long id,
-            @RequestParam boolean active
+            @RequestBody PatientProfile patientProfile
     ) {
-        return patientProfileService.updatePatientStatus(id, active);
+        return patientProfileService.updatePatient(id, patientProfile);
     }
 
-    @GetMapping("/lookup/{patientId}")
-    public PatientProfile lookupByPatientId(@PathVariable String patientId) {
-        return patientProfileService.findByPatientId(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    // DEACTIVATE patient (soft delete)
+    @DeleteMapping("/{id}")
+    public void deactivatePatient(@PathVariable Long id) {
+        patientProfileService.deactivatePatient(id);
     }
 }
-
-

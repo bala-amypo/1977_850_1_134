@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.model.PatientProfile;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PatientProfileService {
 
@@ -13,7 +12,7 @@ public interface PatientProfileService {
 
     List<PatientProfile> getAllPatients();
 
-    PatientProfile updatePatientStatus(Long id, boolean active);
+    PatientProfile updatePatient(Long id, PatientProfile patient);
 
-    Optional<PatientProfile> findByPatientId(String patientId);
-}
+    void deactivatePatient(Long id);
+} 
