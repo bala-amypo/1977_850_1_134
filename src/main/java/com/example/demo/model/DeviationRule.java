@@ -20,13 +20,10 @@ public class DeviationRule {
     private String surgeryType;
 
     @Column(nullable = false)
-    private String parameter;
+    private String symptomParameter;
 
     @Column(nullable = false)
-    private Integer threshold;
-
-    @Column(nullable = false)
-    private String severity;
+    private Integer thresholdDeviation;
 
     @Column(nullable = false)
     private Boolean active = true;
