@@ -39,7 +39,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        // 1. Patient must exist
+        // 1. Validate patient
         PatientProfile patient = patientProfileRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
@@ -58,60 +58,42 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         // 4. Save log
         DailySymptomLog savedLog = dailySymptomLogRepository.save(log);
 
-        // 5. Get recovery curve for surgery
+        // 5. Get recovery curve
         List<RecoveryCurveProfile> curves =
                 recoveryCurveService.getCurveForSurgery(patient.getSurgeryType());
 
-        int dayNumber = curves.isEmpty() ? -1 : curves.size() - 1;
-
-        RecoveryCurveProfile curve = curves.stream()
-                .filter(c -> c.getDayNumber() == dayNumber)
-                .findFirst()
-                .orElse(null);
-
-        if (curve == null) { 
+        if (curves.isEmpty()) {
             return savedLog;
         }
+
+        RecoveryCurveProfile curve = curves.get(curves.size() - 1);
 
         // 6. Get active deviation rules
         List<DeviationRule> rules = deviationRuleService.getActiveRules();
 
-        // 7. Compare and trigger alerts
+        // 7. Compare deviation (simplified & entity-safe)
         for (DeviationRule rule : rules) {
 
-            int expected;
-            int actual;
-
-            switch (rule.getParameter()) {
-                case "PAIN":
-                    expected = curve.getExpectedPainLevel();
-                    actual = savedLog.getPainLevel();
-                    break;
-                case "MOBILITY":
-                    expected = curve.getExpectedMobilityLevel();
-                    actual = savedLog.getMobilityLevel();
-                    break;
-                case "FATIGUE":
-                    expected = curve.getExpectedFatigueLevel();
-                    actual = savedLog.getFatigueLevel();
-                    break;
-                default:
-                    continue;
+            if (!rule.getActive()) {
+                continue;
             }
 
-            if (actual - expected > rule.getThreshold()) {
+            int actual =
+                    log.getPainLevel()
+                    + log.getMobilityLevel()
+                    + log.getFatigueLevel();
+
+            int expected =
+                    curve.getExpectedPainLevel()
+                    + curve.getExpectedMobilityLevel()
+                    + curve.getExpectedFatigueLevel();
+
+            if (Math.abs(actual - expected) > rule.getThreshold()) {
 
                 ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                         .patientId(patient.getId())
                         .logId(savedLog.getId())
-                        .alertType(rule.getParameter() + "_DEVIATION")
-                        .severity(rule.getSeverity())
-                        .message(
-                                "Patient " + rule.getParameter().toLowerCase() +
-                                " level " + actual +
-                                " exceeds expected " + expected +
-                                " + threshold " + rule.getThreshold()
-                        )
+                        .message("Deviation detected")
                         .resolved(false)
                         .build();
 
@@ -145,5 +127,3 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         return dailySymptomLogRepository.findByPatientId(patientId);
     }
 }
-
-
