@@ -16,14 +16,14 @@ public class DeviationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String surgeryType;
+    @Column(unique = true, nullable = false)
+    private String ruleCode;
 
     @Column(nullable = false)
-    private String symptomParameter;   // PAIN / MOBILITY / FATIGUE
+    private String parameter;
 
     @Column(nullable = false)
-    private Integer thresholdDeviation;
+    private Integer threshold;
 
     @Column(nullable = false)
     private Boolean active = true;
