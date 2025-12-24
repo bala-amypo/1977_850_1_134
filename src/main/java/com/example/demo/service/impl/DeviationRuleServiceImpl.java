@@ -20,7 +20,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
     @Override
     public DeviationRule createRule(DeviationRule rule) {
 
-        if (rule.getThreshold() <= 0) {
+        if (rule.getThreshold() == null || rule.getThreshold() <= 0) {
             throw new IllegalArgumentException("Threshold must be positive");
         }
 
@@ -34,10 +34,10 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
                 .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
 
         existing.setThreshold(rule.getThreshold());
-        existing.setActive(rule.getActive());
-        existing.setSurgeryType(rule.getSurgeryType());
         existing.setSeverity(rule.getSeverity());
         existing.setParameter(rule.getParameter());
+        existing.setSurgeryType(rule.getSurgeryType());
+        existing.setActive(rule.getActive());
 
         return deviationRuleRepository.save(existing);
     }
