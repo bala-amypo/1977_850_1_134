@@ -22,7 +22,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
 
         if (rule.getThresholdDeviation() <= 0) {
             throw new IllegalArgumentException("Threshold must be positive");
-        }
+        } 
 
         return deviationRuleRepository.save(rule);
     }

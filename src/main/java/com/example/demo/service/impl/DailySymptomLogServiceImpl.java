@@ -69,7 +69,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                 .findFirst()
                 .orElse(null);
 
-        if (curve == null) {
+        if (curve == null) { 
             return savedLog;
         }
 
