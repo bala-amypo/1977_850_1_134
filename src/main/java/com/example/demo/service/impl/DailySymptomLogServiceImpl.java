@@ -22,7 +22,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final ClinicalAlertRecordRepository alertRepository;
     private final RecoveryCurveService recoveryCurveService;
 
-    // 🔑 Constructor MUST MATCH TEST EXACTL
+    
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
