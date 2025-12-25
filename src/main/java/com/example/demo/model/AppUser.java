@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import lombok.*;
-
+@Entity
 @Data
 @Builder
 @NoArgsConstructor
