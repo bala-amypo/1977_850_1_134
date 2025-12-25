@@ -15,11 +15,13 @@ public class ClinicalAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long logId;   
+    private Long id;
+
+    private Long logId;
 
     private Long patientId;
 
-    private String alertType;   
+    private String alertType;
 
     private String message;
 
@@ -27,5 +29,4 @@ public class ClinicalAlertRecord {
     private boolean resolved = false;
 
     private LocalDateTime createdAt;
-
 }
