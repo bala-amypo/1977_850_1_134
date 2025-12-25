@@ -21,11 +21,11 @@ public class DailySymptomLog {
 
     private LocalDate logDate;
 
-    private int painLevel;
+    private Integer painLevel;
 
-    private int mobilityLevel;
+    private Integer mobilityLevel;
 
-    private int fatigueLevel;
+    private Integer fatigueLevel;
 
     private String additionalNotes;
 }
