@@ -22,7 +22,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final ClinicalAlertRecordRepository alertRepository;
     private final RecoveryCurveService recoveryCurveService;
 
-    // 🔑 Constructor MUST MATCH TEST EXACTLY
+    // 🔑 Constructor MUST MATCH TEST EXACTL
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
@@ -47,7 +47,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
         DailySymptomLog savedLog = logRepository.save(log);
 
-        // 🔔 Create alert exactly as tests expect
+        
         ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                 .logId(savedLog.getId())
                 .patientId(patient.getId())
