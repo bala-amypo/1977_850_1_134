@@ -1,7 +1,3 @@
-
-// =======================
-// DeviationRule.java
-// =======================
 package com.example.demo.model;
 
 import lombok.*;

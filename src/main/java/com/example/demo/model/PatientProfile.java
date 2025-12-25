@@ -1,7 +1,3 @@
-
-// =======================
-// PatientProfile.java
-// =======================
 package com.example.demo.model;
 
 import lombok.*;
