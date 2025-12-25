@@ -54,11 +54,13 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
         for (DeviationRule rule : rules) {
 
-            if ("PAIN".equals(rule.getParameter())
-                    && saved.getPainLevel() != null
-                    && !curves.isEmpty()
-                    && saved.getPainLevel() >
-                       curves.get(0).getExpectedPainLevel() + rule.getThreshold()) {
+           if ("PAIN".equals(rule.getParameter())
+        && saved.getPainLevel() != null
+        && !curves.isEmpty()
+        && curves.get(0).getExpectedPainLevel() != null
+        && rule.getThreshold() != null
+        && saved.getPainLevel().intValue() >
+           curves.get(0).getExpectedPainLevel().intValue() + rule.getThreshold().intValue()) {
 
                 ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                         .patientId(patient.getId())
