@@ -1,23 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.model.PatientProfile;
+import com.example.demo.model.RecoveryCurveProfile;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface PatientProfileService {
+public interface RecoveryCurveService {
 
-    PatientProfile createPatient(PatientProfile patient);
+    RecoveryCurveProfile createCurveEntry(RecoveryCurveProfile curve);
 
-    PatientProfile updatePatient(Long id, PatientProfile patient);
+    List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType);
 
-    void updatePatientStatus(Long id, boolean active);
-
-    Optional<PatientProfile> findByPatientId(String patientId);
-
-    Optional<PatientProfile> getPatientById(Long id);
-
-    void deactivatePatient(Long id);
-
-    List<PatientProfile> getAllPatients();
+    List<RecoveryCurveProfile> getAllCurves();
 }
