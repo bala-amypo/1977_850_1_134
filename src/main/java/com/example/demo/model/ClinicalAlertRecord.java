@@ -3,7 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clinical_alert_records")
@@ -15,19 +15,17 @@ public class ClinicalAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long logId;   
 
     private Long patientId;
 
-    private String ruleCode;
+    private String alertType;   
 
     private String message;
 
     @Builder.Default
     private boolean resolved = false;
 
-    public Long getLogId() {
-        return id;
-    }
     private LocalDateTime createdAt;
+
 }
