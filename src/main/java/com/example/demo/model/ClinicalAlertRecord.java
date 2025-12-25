@@ -2,16 +2,13 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "clinical_alerts")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ClinicalAlertRecord {
 
     @Id
@@ -20,17 +17,9 @@ public class ClinicalAlertRecord {
 
     private Long patientId;
 
-    private Long logId;
+    private String ruleCode;
 
-    private String alertType;
+    private boolean resolved;
 
-    private String severity;
-
-    private String message;
-
-    private LocalDate alertDate;
-
-    @Builder.Default
-    private Boolean resolved = false;
+    private LocalDateTime createdAt;
 }
-
