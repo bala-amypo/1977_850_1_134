@@ -2,8 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.*;
-import com.example.demo.repository.DailySymptomLogRepository;
-import com.example.demo.repository.PatientProfileRepository;
+import com.example.demo.repository.*;
 import com.example.demo.service.*;
 import org.springframework.stereotype.Service;
 
@@ -39,30 +38,27 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         PatientProfile patient = patientRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
-       
-        if (log.getLogDate() == null || log.getLogDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Invalid log date");
+        if (log.getLogDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("future date");
         }
 
-        logRepository.findByPatientIdAndLogDate(log.getPatientId(), log.getLogDate())
-                .ifPresent(existing -> {
-                    throw new IllegalArgumentException("Duplicate log");
-                });
+        logRepository.findByPatientIdAndLogDate(
+                log.getPatientId(),
+                log.getLogDate()
+        ).ifPresent(existing -> {
+            throw new IllegalArgumentException("Duplicate log");
+        });
 
         DailySymptomLog saved = logRepository.save(log);
 
-        // Fetch recovery curve (for validation / reference)
         recoveryCurveService.getCurveForSurgery(patient.getSurgeryType());
 
-
         deviationRuleService.getActiveRules().forEach(rule -> {
-            if (saved.getPainLevel() > rule.getThreshold()) {
-                ClinicalAlertRecord alert = new ClinicalAlertRecord();
-                alert.setPatientId(saved.getPatientId());
-                alert.setRuleCode(rule.getRuleCode());
-                alert.setResolved(false);
-                clinicalAlertService.createAlert(alert);
-            }
+            ClinicalAlertRecord alert = new ClinicalAlertRecord();
+            alert.setPatientId(saved.getPatientId());
+            alert.setMessage("Deviation detected for rule: " + rule.getRuleCode());
+            alert.setResolved(false);
+            clinicalAlertService.createAlert(alert);
         });
 
         return saved;
@@ -77,6 +73,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
     @Override
     public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog updated) {
+
         DailySymptomLog existing = logRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
 
@@ -84,6 +81,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         existing.setMobilityLevel(updated.getMobilityLevel());
         existing.setFatigueLevel(updated.getFatigueLevel());
         existing.setLogDate(updated.getLogDate());
+        existing.setPatientId(existing.getPatientId());
 
         return logRepository.save(existing);
     }
