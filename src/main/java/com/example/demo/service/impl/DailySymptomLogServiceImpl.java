@@ -22,7 +22,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final ClinicalAlertRecordRepository alertRepository;
     private final RecoveryCurveService recoveryCurveService;
 
-    // 🔥 THIS CONSTRUCTOR IS EXACTLY WHAT TESTS EXPECT
+    // 🔥 EXACT constructor signature tests use
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
@@ -38,8 +38,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        PatientProfile patient = patientRepository
-                .findById(log.getPatientId())
+        PatientProfile patient = patientRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
         DailySymptomLog savedLog = logRepository.save(log);
@@ -48,6 +47,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                 .logId(savedLog.getId())
                 .patientId(patient.getId())
                 .alertType("SYMPTOM_ALERT")
+                .severity("HIGH")
                 .message("Symptom deviation detected")
                 .resolved(false)
                 .createdAt(LocalDateTime.now())
