@@ -7,6 +7,7 @@ import com.example.demo.service.PatientProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PatientProfileServiceImpl implements PatientProfileService {
@@ -37,37 +38,33 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     }
 
     @Override
-    public PatientProfile updatePatientStatus(Long id, boolean active) {
+    public void updatePatientStatus(Long id, boolean active) {
 
         PatientProfile patient = patientProfileRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         patient.setActive(active);
-        return patientProfileRepository.save(patient);
+        patientProfileRepository.save(patient);
     }
 
     @Override
-    public PatientProfile findByPatientId(String patientId) {
-
-        return patientProfileRepository.findByPatientId(patientId)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+    public Optional<PatientProfile> findByPatientId(String patientId) {
+        return patientProfileRepository.findByPatientId(patientId);
     }
 
     @Override
-    public PatientProfile getPatientById(Long id) {
-
-        return patientProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+    public Optional<PatientProfile> getPatientById(Long id) {
+        return patientProfileRepository.findById(id);
     }
 
     @Override
-    public PatientProfile deactivatePatient(Long id) {
+    public void deactivatePatient(Long id) {
 
         PatientProfile patient = patientProfileRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         patient.setActive(false);
-        return patientProfileRepository.save(patient);
+        patientProfileRepository.save(patient);
     }
 
     @Override
