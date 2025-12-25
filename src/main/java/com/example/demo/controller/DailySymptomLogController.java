@@ -34,3 +34,4 @@ public class DailySymptomLogController {
         return dailySymptomLogService.getLogsByPatient(patientId);
     }
 }
+   
