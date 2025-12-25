@@ -4,10 +4,11 @@ import com.example.demo.model.DailySymptomLog;
 import com.example.demo.service.DailySymptomLogService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/symptom-logs")
+@RequestMapping("/api/daily-logs")
 public class DailySymptomLogController {
 
     private final DailySymptomLogService dailySymptomLogService;
@@ -17,19 +18,23 @@ public class DailySymptomLogController {
     }
 
     @PostMapping
-    public DailySymptomLog create(@RequestBody DailySymptomLog log) {
+    public DailySymptomLog recordLog(@RequestBody DailySymptomLog log) {
         return dailySymptomLogService.recordSymptomLog(log);
     }
 
-    @PutMapping("/{id}")
-    public DailySymptomLog update(@PathVariable Long id,
-                                  @RequestBody DailySymptomLog log) {
-        return dailySymptomLogService.updateSymptomLog(id, log);
+    @GetMapping("/patient/{patientId}")
+    public List<DailySymptomLog> getLogsForPatient(@PathVariable Long patientId) {
+        return dailySymptomLogService.getLogsForPatient(patientId);
     }
 
-    @GetMapping("/patient/{patientId}")
-    public List<DailySymptomLog> getByPatient(@PathVariable Long patientId) {
-        return dailySymptomLogService.getLogsByPatient(patientId);
+    @GetMapping("/patient/{patientId}/date/{date}")
+    public DailySymptomLog getLogForDate(
+            @PathVariable Long patientId,
+            @PathVariable String date
+    ) {
+        return dailySymptomLogService.getLogForDate(
+                patientId,
+                LocalDate.parse(date)
+        );
     }
 }
-
