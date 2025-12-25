@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clinical_alert_records")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,15 +22,14 @@ public class ClinicalAlertRecord {
 
     private Long patientId;
 
-   
     private String alertType;
 
     private String severity;
 
     private String message;
 
-    
-    private boolean resolved;
+    // 🔥 MUST be Boolean, not boolean (tests dereference it)
+    private Boolean resolved;
 
     private LocalDateTime createdAt;
 }
