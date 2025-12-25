@@ -55,24 +55,22 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         for (DeviationRule rule : rules) {
 
            if ("PAIN".equals(rule.getParameter())
-        && saved.getPainLevel() != null
         && !curves.isEmpty()
-        && curves.get(0).getExpectedPainLevel() != null
-        && rule.getThreshold() != null
-        && saved.getPainLevel().intValue() >
-           curves.get(0).getExpectedPainLevel().intValue() + rule.getThreshold().intValue()) {
+        && saved.getPainLevel() >
+           curves.get(0).getExpectedPainLevel() + rule.getThreshold()) {
 
-                ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
-                        .patientId(patient.getId())
-                        .logId(saved.getId())
-                        .alertType("PAIN_SPIKE")
-                        .severity(rule.getSeverity())
-                        .message("Pain deviation detected")
-                        .createdAt(LocalDateTime.now())
-                        .build();
+    ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
+            .patientId(patient.getId())
+            .logId(saved.getId())
+            .alertType("PAIN_SPIKE")
+            .severity(rule.getSeverity())
+            .message("Pain deviation detected")
+            .createdAt(LocalDateTime.now())
+            .build();
 
-                clinicalAlertService.createAlert(alert);
-            }
+    clinicalAlertService.createAlert(alert);
+}
+ 
         }
 
         return saved;
