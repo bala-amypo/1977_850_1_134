@@ -4,13 +4,12 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.DeviationRule;
 import com.example.demo.repository.DeviationRuleRepository;
 import com.example.demo.service.DeviationRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
-
 public class DeviationRuleServiceImpl implements DeviationRuleService {
 
     private final DeviationRuleRepository repository;
@@ -37,9 +36,10 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         return repository.findByActiveTrue();
     }
 
+    
     @Override
     public List<DeviationRule> getAllRules() {
-        return repository.findByActiveTrue();
+        return repository.findAll();
     }
 
     @Override
