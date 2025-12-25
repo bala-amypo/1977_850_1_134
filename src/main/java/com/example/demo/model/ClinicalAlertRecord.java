@@ -21,22 +21,15 @@ public class ClinicalAlertRecord {
 
     private Long patientId;
 
+   
     private String alertType;
+
+    private String severity;
 
     private String message;
 
-    @Builder.Default
-    private boolean resolved = false;
+    
+    private boolean resolved;
 
     private LocalDateTime createdAt;
-
-
-    public boolean getResolved() {
-        return resolved;
-    }
-
-
-    public String getAlertType() {
-        return alertType;
-    }
 }
