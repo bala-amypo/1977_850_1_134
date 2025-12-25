@@ -7,8 +7,7 @@ import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.repository.DailySymptomLogRepository;
 import com.example.demo.repository.PatientProfileRepository;
-import com.example.demo.service.DailySymptomLogService;
-import com.example.demo.service.RecoveryCurveService;
+import com.example.demo.service.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,18 +20,24 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final PatientProfileRepository patientRepository;
     private final ClinicalAlertRecordRepository alertRepository;
     private final RecoveryCurveService recoveryCurveService;
+    private final DeviationRuleService deviationRuleService;
+    private final ClinicalAlertService clinicalAlertService;
 
-    // 🔥 EXACT constructor signature tests use
+    // 🔥 EXACT constructor tests expect (6 params)
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
             ClinicalAlertRecordRepository alertRepository,
-            RecoveryCurveService recoveryCurveService
+            RecoveryCurveService recoveryCurveService,
+            DeviationRuleService deviationRuleService,
+            ClinicalAlertService clinicalAlertService
     ) {
         this.logRepository = logRepository;
         this.patientRepository = patientRepository;
         this.alertRepository = alertRepository;
         this.recoveryCurveService = recoveryCurveService;
+        this.deviationRuleService = deviationRuleService;
+        this.clinicalAlertService = clinicalAlertService;
     }
 
     @Override
