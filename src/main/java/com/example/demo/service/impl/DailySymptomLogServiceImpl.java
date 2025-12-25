@@ -36,15 +36,15 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        PatientProfile patient = patientProfileRepository.findById(log.getPatientId())
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+        PatientProfile patient = patientProfileRepository.findById(log.getPatient().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         if (log.getLogDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Future date not allowed");
+            throw new IllegalArgumentException("future date");
         }
 
         dailySymptomLogRepository
-                .findByPatientIdAndLogDate(log.getPatientId(), log.getLogDate())
+                .findByPatientIdAndLogDate(patient.getId(), log.getLogDate())
                 .ifPresent(l -> {
                     throw new IllegalArgumentException("Duplicate daily log");
                 });
@@ -67,16 +67,16 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
             int expected;
             int actual;
 
-            switch (rule.getParameter()) {
-                case "PAIN" -> {
+            switch (rule.getSymptomParameter().toLowerCase()) {
+                case "pain" -> {
                     expected = curve.getExpectedPainLevel();
                     actual = savedLog.getPainLevel();
                 }
-                case "MOBILITY" -> {
+                case "mobility" -> {
                     expected = curve.getExpectedMobilityLevel();
                     actual = savedLog.getMobilityLevel();
                 }
-                case "FATIGUE" -> {
+                case "fatigue" -> {
                     expected = curve.getExpectedFatigueLevel();
                     actual = savedLog.getFatigueLevel();
                 }
@@ -85,13 +85,13 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
                 }
             }
 
-            if (Math.abs(actual - expected) > rule.getThreshold()) {
+            if (Math.abs(actual - expected) > rule.getThresholdDeviation()) {
 
-                ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
-                        .patientId(patient.getId())
-                        .logId(savedLog.getId())
-                        .alertType(rule.getParameter() + "_DEVIATION")
-                        .message("Deviation detected")
+                ClinicalAlert alert = ClinicalAlert.builder()
+                        .patient(patient)
+                        .alertDate(LocalDate.now())
+                        .severity("HIGH")
+                        .message("Deviation detected for " + rule.getSymptomParameter())
                         .resolved(false)
                         .build();
 
@@ -106,7 +106,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog updated) {
 
         DailySymptomLog existing = dailySymptomLogRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         existing.setPainLevel(updated.getPainLevel());
         existing.setMobilityLevel(updated.getMobilityLevel());
@@ -120,10 +120,8 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     public List<DailySymptomLog> getLogsByPatient(Long patientId) {
 
         patientProfileRepository.findById(patientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         return dailySymptomLogRepository.findByPatientId(patientId);
     }
 }
-
- 
