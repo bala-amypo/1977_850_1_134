@@ -21,7 +21,7 @@ public class ClinicalAlertRecord {
 
     private Long patientId;
 
-    private String alertType;
+    private String severity;
 
     private String message;
 
