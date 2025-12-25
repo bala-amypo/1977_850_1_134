@@ -4,10 +4,10 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
@@ -24,9 +24,10 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = repository.findById(alertId)
+    public ClinicalAlertRecord resolveAlert(Long id) {
+        ClinicalAlertRecord alert = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
+
         alert.setResolved(true);
         return repository.save(alert);
     }
@@ -37,13 +38,12 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return repository.findAll();
-    }
-
-    @Override
     public Optional<ClinicalAlertRecord> getAlertById(Long id) {
         return repository.findById(id);
     }
-}
 
+    @Override
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return repository.findAll();
+    }
+}
