@@ -18,3 +18,4 @@ public interface DeviationRuleService {
 
     Optional<DeviationRule> getRuleByCode(String ruleCode);
 }
+   

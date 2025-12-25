@@ -27,7 +27,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
         return deviationRuleRepository.save(rule);
     }
 
-    @Override
+    @Override   
     public DeviationRule updateRule(Long id, DeviationRule rule) {
 
         DeviationRule existing = deviationRuleRepository.findById(id)
