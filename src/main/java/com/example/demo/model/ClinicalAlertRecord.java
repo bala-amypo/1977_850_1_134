@@ -17,22 +17,26 @@ public class ClinicalAlertRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 🔑 TEST EXPECTS THIS EXACT NAME
     private Long logId;
 
     private Long patientId;
 
-    // 🔑 TEST EXPECTS alertType(String)
     private String alertType;
-
-    // 🔑 TEST EXPECTS severity(String)
-    private String severity;
 
     private String message;
 
-    // 🔑 TEST EXPECTS getResolved()
     @Builder.Default
     private boolean resolved = false;
 
     private LocalDateTime createdAt;
+
+
+    public boolean getResolved() {
+        return resolved;
+    }
+
+    // 🔴 REQUIRED BY TEST
+    public String getAlertType() {
+        return alertType;
+    }
 }
