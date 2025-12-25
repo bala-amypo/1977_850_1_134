@@ -36,7 +36,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        PatientProfile patient = patientProfileRepository.findById(log.getPatient().getId())
+        PatientProfile patient = patientProfileRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
 
         if (log.getLogDate().isAfter(LocalDate.now())) {
@@ -44,7 +44,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         }
 
         dailySymptomLogRepository
-                .findByPatientIdAndLogDate(patient.getId(), log.getLogDate())
+                .findByPatientIdAndLogDate(log.getPatientId(), log.getLogDate())
                 .ifPresent(l -> {
                     throw new IllegalArgumentException("Duplicate daily log");
                 });
@@ -87,7 +87,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
             if (Math.abs(actual - expected) > rule.getThresholdDeviation()) {
 
-                ClinicalAlert alert = ClinicalAlert.builder()
+                ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                         .patient(patient)
                         .alertDate(LocalDate.now())
                         .severity("HIGH")
