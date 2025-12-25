@@ -22,7 +22,6 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final ClinicalAlertRecordRepository alertRepository;
     private final RecoveryCurveService recoveryCurveService;
 
-    
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
@@ -38,7 +37,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        // Convert Long → String (required by PatientProfile)
+        // Convert Long → String (test expects this behavior)
         String patientId = String.valueOf(log.getPatientId());
 
         PatientProfile patient = patientRepository
@@ -47,12 +46,10 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
         DailySymptomLog savedLog = logRepository.save(log);
 
-        
         ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                 .logId(savedLog.getId())
                 .patientId(patient.getId())
-                .alertType("SYMPTOM")
-                .severity("MEDIUM")
+                .alertType("SYMPTOM_DEVIATION")
                 .message("Symptom deviation detected")
                 .resolved(false)
                 .createdAt(LocalDateTime.now())

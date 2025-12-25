@@ -35,7 +35,7 @@ public class ClinicalAlertRecord {
         return resolved;
     }
 
-    // 🔴 REQUIRED BY TEST
+
     public String getAlertType() {
         return alertType;
     }
