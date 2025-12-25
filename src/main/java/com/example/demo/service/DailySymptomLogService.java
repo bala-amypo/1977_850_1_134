@@ -12,3 +12,4 @@ public interface DailySymptomLogService {
 
     List<DailySymptomLog> getLogsByPatient(Long patientId);
 }
+   

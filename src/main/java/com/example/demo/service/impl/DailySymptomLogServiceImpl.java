@@ -79,3 +79,4 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         return logRepository.findByPatientId(patientId);
     }
 }
+   
