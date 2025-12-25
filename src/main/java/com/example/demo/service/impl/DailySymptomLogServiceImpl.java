@@ -23,7 +23,6 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final DeviationRuleService deviationRuleService;
     private final ClinicalAlertService clinicalAlertService;
 
-    // 🔥 EXACT constructor tests expect (6 params)
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
