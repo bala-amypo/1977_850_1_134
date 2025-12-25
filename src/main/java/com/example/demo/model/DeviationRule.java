@@ -28,3 +28,4 @@ public class DeviationRule {
     @Column(nullable = false)
     private Boolean active = true;
 }
+  
