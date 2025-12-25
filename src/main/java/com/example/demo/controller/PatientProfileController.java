@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,14 @@ public class PatientProfileController {
 
     @GetMapping("/{id}")
     public PatientProfile getById(@PathVariable Long id) {
-        return patientProfileService.getPatientById(id);
+        return patientProfileService.getPatientById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @GetMapping("/lookup/{patientId}")
     public PatientProfile getByPatientId(@PathVariable String patientId) {
-        return patientProfileService.findByPatientId(patientId);
+        return patientProfileService.findByPatientId(patientId)
+                .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @PutMapping("/{id}")
@@ -38,14 +41,14 @@ public class PatientProfileController {
     }
 
     @PutMapping("/{id}/status")
-    public PatientProfile updateStatus(@PathVariable Long id,
-                                       @RequestParam boolean active) {
-        return patientProfileService.updatePatientStatus(id, active);
+    public void updateStatus(@PathVariable Long id,
+                             @RequestParam boolean active) {
+        patientProfileService.updatePatientStatus(id, active);
     }
 
     @DeleteMapping("/{id}")
-    public PatientProfile deactivate(@PathVariable Long id) {
-        return patientProfileService.deactivatePatient(id);
+    public void deactivate(@PathVariable Long id) {
+        patientProfileService.deactivatePatient(id);
     }
 
     @GetMapping
