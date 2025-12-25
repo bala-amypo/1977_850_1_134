@@ -1,25 +1,39 @@
 package com.example.demo.security;
 
 import com.example.demo.model.AppUser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
+import java.security.Key;
+import java.util.Date;
+
+@Component
 public class JwtTokenProvider {
 
-    private final String secret;
-    private final long validityInMs;
-
-    // REQUIRED constructor signature (tests depend on this)
-    public JwtTokenProvider(String secret, long validityInMs) {
-        this.secret = secret;
-        this.validityInMs = validityInMs;
-    }
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String generateToken(AppUser user) {
-        // Tests mock this method, so just return a dummy non-null value
-        return "jwt-token";
+        return Jwts.builder()
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole().name())
+                .claim("userId", user.getId())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
+                .signWith(key)
+                .compact();
     }
 
     public boolean validateToken(String token) {
-        // Tests mock true/false explicitly
-        return token != null && !token.isEmpty();
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
