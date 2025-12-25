@@ -7,7 +7,9 @@ import com.example.demo.service.ClinicalAlertService;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
     private final ClinicalAlertRecordRepository repository;

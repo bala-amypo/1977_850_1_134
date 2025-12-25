@@ -7,6 +7,9 @@ import com.example.demo.service.PatientProfileService;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
+
+@Service
 
 public class PatientProfileServiceImpl implements PatientProfileService {
 

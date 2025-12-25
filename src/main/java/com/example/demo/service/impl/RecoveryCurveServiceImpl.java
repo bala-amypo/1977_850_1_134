@@ -5,6 +5,9 @@ import com.example.demo.repository.RecoveryCurveProfileRepository;
 import com.example.demo.service.RecoveryCurveService;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
+
+@Service
 
 public class RecoveryCurveServiceImpl implements RecoveryCurveService {
 
