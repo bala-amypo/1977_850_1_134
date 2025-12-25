@@ -27,4 +27,5 @@ public class ClinicalAlertRecord {
     public Long getLogId() {
         return id;
     }
+    private LocalDateTime createdAt;
 }
