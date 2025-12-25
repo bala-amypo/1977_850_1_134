@@ -87,7 +87,7 @@
 
         <!-- ================= TESTING ================= -->
 
-        <!-- Spring Boot Test (JUnit platform excluded from execution) -->
+        <!-- Spring Boot Test (JUnit engine excluded from execution) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -127,7 +127,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Maven Surefire Plugin (FORCE TESTNG) -->
+            <!-- Maven Surefire Plugin (FINAL FIX) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -143,6 +143,11 @@
 
                 <configuration>
                     <useModulePath>false</useModulePath>
+
+                    <!-- 🔑 THIS IS THE KEY LINE -->
+                    <!-- Allows TestNG to find tests inside src/main/java -->
+                    <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
+
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
