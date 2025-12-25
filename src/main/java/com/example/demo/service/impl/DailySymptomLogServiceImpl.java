@@ -1,4 +1,3 @@
-
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -38,7 +37,6 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
         PatientProfile patient = patientRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
-        log.setSubmittedAt(LocalDateTime.now());
         DailySymptomLog savedLog = logRepository.save(log);
 
         ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
@@ -63,6 +61,6 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     @Override
     public DailySymptomLog getLogForDate(Long patientId, LocalDate date) {
         return logRepository.findByPatientIdAndLogDate(patientId, date)
-                .orElseThrow(() -> new ResourceNotFoundException("Log not found for date"));
+                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
     }
 }
