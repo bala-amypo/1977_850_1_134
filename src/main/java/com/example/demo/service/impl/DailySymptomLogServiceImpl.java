@@ -8,9 +8,9 @@ import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.repository.DailySymptomLogRepository;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.DailySymptomLogService;
+import com.example.demo.service.RecoveryCurveService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,32 +20,37 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final DailySymptomLogRepository logRepository;
     private final PatientProfileRepository patientRepository;
     private final ClinicalAlertRecordRepository alertRepository;
+    private final RecoveryCurveService recoveryCurveService;
 
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
-            ClinicalAlertRecordRepository alertRepository
+            ClinicalAlertRecordRepository alertRepository,
+            RecoveryCurveService recoveryCurveService
     ) {
         this.logRepository = logRepository;
         this.patientRepository = patientRepository;
         this.alertRepository = alertRepository;
+        this.recoveryCurveService = recoveryCurveService;
     }
 
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        PatientProfile patient = patientRepository.findById(log.getPatientId())
+        PatientProfile patient = patientRepository
+                .findByPatientId(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
+        log.setSubmittedAt(LocalDateTime.now());
         DailySymptomLog savedLog = logRepository.save(log);
 
         ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                 .logId(savedLog.getId())
                 .patientId(patient.getId())
                 .alertType("SYMPTOM_DEVIATION")
-                .message("Deviation detected in daily symptom log")
-                .resolved(false)
+                .message("Symptom deviation detected")
                 .createdAt(LocalDateTime.now())
+                .resolved(false)
                 .build();
 
         alertRepository.save(alert);
@@ -54,13 +59,21 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     }
 
     @Override
-    public List<DailySymptomLog> getLogsForPatient(Long patientId) {
-        return logRepository.findByPatientId(patientId);
+    public DailySymptomLog updateSymptomLog(Long id, DailySymptomLog log) {
+
+        DailySymptomLog existing = logRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
+
+        existing.setPainLevel(log.getPainLevel());
+        existing.setMobilityLevel(log.getMobilityLevel());
+        existing.setFatigueLevel(log.getFatigueLevel());
+        existing.setAdditionalNotes(log.getAdditionalNotes());
+
+        return logRepository.save(existing);
     }
 
     @Override
-    public DailySymptomLog getLogForDate(Long patientId, LocalDate date) {
-        return logRepository.findByPatientIdAndLogDate(patientId, date)
-                .orElseThrow(() -> new ResourceNotFoundException("Log not found"));
+    public List<DailySymptomLog> getLogsByPatient(Long patientId) {
+        return logRepository.findByPatientId(patientId);
     }
 }
