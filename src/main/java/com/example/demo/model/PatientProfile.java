@@ -24,7 +24,7 @@ public class PatientProfile {
 
     @Column(nullable = false)
     private String fullName;
-
+ 
     @Column(nullable = false)
     private Integer age;
 
