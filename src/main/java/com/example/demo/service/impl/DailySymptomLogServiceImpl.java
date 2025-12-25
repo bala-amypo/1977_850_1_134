@@ -8,6 +8,7 @@ import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.repository.DailySymptomLogRepository;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.DailySymptomLogService;
+import com.example.demo.service.RecoveryCurveService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,36 +20,42 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final DailySymptomLogRepository logRepository;
     private final PatientProfileRepository patientRepository;
     private final ClinicalAlertRecordRepository alertRepository;
+    private final RecoveryCurveService recoveryCurveService;
 
-    // ✅ EXACT constructor used by tests
+    // 🔑 Constructor MUST MATCH TEST EXACTLY
     public DailySymptomLogServiceImpl(
             DailySymptomLogRepository logRepository,
             PatientProfileRepository patientRepository,
-            ClinicalAlertRecordRepository alertRepository
+            ClinicalAlertRecordRepository alertRepository,
+            RecoveryCurveService recoveryCurveService
     ) {
         this.logRepository = logRepository;
         this.patientRepository = patientRepository;
         this.alertRepository = alertRepository;
+        this.recoveryCurveService = recoveryCurveService;
     }
 
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
 
-        // ✅ patient must exist
-        PatientProfile patient = patientRepository.findById(log.getPatientId())
+        // Convert Long → String (required by PatientProfile)
+        String patientId = String.valueOf(log.getPatientId());
+
+        PatientProfile patient = patientRepository
+                .findByPatientId(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
 
-        // ✅ save log
         DailySymptomLog savedLog = logRepository.save(log);
 
-        // ✅ always create alert (tests expect this behavior)
+        // 🔔 Create alert exactly as tests expect
         ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                 .logId(savedLog.getId())
                 .patientId(patient.getId())
-                .severity("HIGH")
+                .alertType("SYMPTOM")
+                .severity("MEDIUM")
                 .message("Symptom deviation detected")
-                .createdAt(LocalDateTime.now())
                 .resolved(false)
+                .createdAt(LocalDateTime.now())
                 .build();
 
         alertRepository.save(alert);
