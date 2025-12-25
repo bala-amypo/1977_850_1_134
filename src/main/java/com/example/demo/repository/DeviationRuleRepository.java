@@ -13,4 +13,4 @@ public interface DeviationRuleRepository extends JpaRepository<DeviationRule, Lo
     Optional<DeviationRule> findByRuleCode(String ruleCode);
 
     List<DeviationRule> findByActiveTrue();
-}
+} 

@@ -15,3 +15,4 @@ public interface DailySymptomLogRepository extends JpaRepository<DailySymptomLog
 
     Optional<DailySymptomLog> findByPatientIdAndLogDate(Long patientId, LocalDate logDate);
 }
+ 

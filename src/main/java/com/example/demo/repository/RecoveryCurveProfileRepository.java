@@ -11,3 +11,4 @@ public interface RecoveryCurveProfileRepository extends JpaRepository<RecoveryCu
 
     List<RecoveryCurveProfile> findBySurgeryTypeOrderByDayNumberAsc(String surgeryType);
 }
+ 
