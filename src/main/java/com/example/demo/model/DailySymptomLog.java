@@ -4,16 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "daily_symptom_logs",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"patientId", "logDate"}))
-@Getter
-@Setter
+@Table(name = "daily_symptom_logs")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class DailySymptomLog {
 
     @Id
@@ -24,13 +21,11 @@ public class DailySymptomLog {
 
     private LocalDate logDate;
 
-    private Integer painLevel;
+    private int painLevel;
 
-    private Integer mobilityLevel;
+    private int mobilityLevel;
 
-    private Integer fatigueLevel;
+    private int fatigueLevel;
 
     private String additionalNotes;
-
-    private LocalDateTime submittedAt;
 }
