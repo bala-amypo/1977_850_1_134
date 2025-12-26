@@ -4,46 +4,50 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.PatientProfileService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
-
 public class PatientProfileServiceImpl implements PatientProfileService {
 
-    private final PatientProfileRepository repository;
+    private final PatientProfileRepository patientProfileRepository;
 
-    public PatientProfileServiceImpl(PatientProfileRepository repository) {
-        this.repository = repository;
+    public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
+        this.patientProfileRepository = patientProfileRepository;
     }
 
     @Override
     public PatientProfile createPatient(PatientProfile patient) {
-        return repository.save(patient);
+        return patientProfileRepository.save(patient);
     }
 
     @Override
     public PatientProfile getPatientById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-    }
-
-    @Override
-    public List<PatientProfile> getAllPatients() {
-        return repository.findAll();
+        return patientProfileRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Patient not found"));
     }
 
     @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile profile = getPatientById(id);
-        profile.setActive(active);
-        return repository.save(profile);
+
+        PatientProfile patient = patientProfileRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Patient not found"));
+
+        patient.setActive(active);
+        return patientProfileRepository.save(patient);
     }
 
     @Override
     public Optional<PatientProfile> findByPatientId(String patientId) {
-        return repository.findByPatientId(patientId);
+        return patientProfileRepository.findByPatientId(patientId);
+    }
+
+    @Override
+    public List<PatientProfile> getAllPatients() {
+        return patientProfileRepository.findAll();
     }
 }
