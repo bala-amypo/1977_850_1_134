@@ -22,4 +22,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGeneral(Exception ex) {
         return new ResponseEntity<>("Internal error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
+} 
