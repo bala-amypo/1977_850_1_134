@@ -3,16 +3,13 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "clinical_alert_records")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ClinicalAlertRecord {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,6 +26,4 @@ public class ClinicalAlertRecord {
 
     @Builder.Default
     private Boolean resolved = false;
-
-    private LocalDateTime createdAt;
 }
