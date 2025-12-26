@@ -4,19 +4,19 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "app_users")
-@Getter
-@Setter
+@Table(name = "app_users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"email"})
+})
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class AppUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -25,6 +25,5 @@ public class AppUser {
     private String fullName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private UserRole role;
 }
