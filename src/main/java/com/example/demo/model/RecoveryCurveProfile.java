@@ -5,13 +5,11 @@ import lombok.*;
 
 @Entity
 @Table(name = "recovery_curve_profiles")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class RecoveryCurveProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
